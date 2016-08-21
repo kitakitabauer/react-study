@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<!-- コアライブラリ -->
+<script src="https://fb.me/react-15.2.0.js"></script>
+<!-- DOMライブラリ -->
+<script src="https://fb.me/react-dom-15.2.0.js"></script>
+<!-- Babelライブラリ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.10.3/babel.min.js"></script>
+<!-- Ajax通信を行うため -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js"></script>
+
+
+<!-- 管理対象の要素 -->
+<div id="content"></div>
+
+<script type="text/babel">
+  var TodoForm = React.createClass({
+    render: function() {
+      // inputとbuttonを持ったformを返す
+      // コンポーネントの中ではprops.onSubmitなどのように属性参照ができる
+      // 属性の実装はTodoAppに記述する
+      return <form onSubmit={this.props.onSubmit}>
+        <input onChange={this.props.onChange} value={this.props.text} />
+        <button>Add</button>
+      </form>
+    }
+  });
+
+  var TodoList = React.createClass({
+    // ulを返す。ulの要素となるliはタスクの数だけ用意する必要がある。
+    // ここではTodoAppからprops.itemsで指定される想定で、その数だけliを生成する。
+    render: function() {
+      var createItem = function(item) {
+        return <li key={item.id}>{item.text}</li>;
+      };
+      return <ul>{this.props.items.map(createItem)}</ul>;
+    }
+  });
+
+  // 通信しない場合
+  // var TodoApp = React.createClass({
+  //   // 1.初期値指定
+  //   // 状態を示すstateの初期値を指定する。
+  //   getInitialState: function() {
+  //     return {items: [], text: ''};
+  //   },
+  //   // 2.フォームの入力テキスト変更イベントハンドラ
+  //   // TodoFormで発火するイベントハンドラ
+  //   handleChange: function(e) {
+  //     this.setState({text: e.target.value});
+  //   },
+  //   // 3.フォームのボタンクリックイベントハンドラ
+  //   // TodoFormで発火するイベントハンドラ
+  //   handleSubmit: function(e) {
+  //     // preventDefaultでイベントをキャンセルする
+  //     e.preventDefault();
+  //     var newItems = this.state.items.concat({
+  //       id: Date.now(),
+  //       text: this.state.text
+  //     });
+  //     this.setState({items: newItems, text: ''});
+  //   },
+  //   // 4.フォームとリストを子エレメントに持つdivを返す
+  //   render: function() {
+  //     return <div>
+  //       <TodoForm
+  //         onChange={this.handleChange}
+  //         onSubmit={this.handleSubmit}
+  //         text={this.state.text} />
+  //       <TodoList items={this.state.items} />
+  //     </div>
+  //   }
+  // });
+
+  // ReactDOM.render(<TodoApp />, content);
+
+  // 通信する場合
+  var TodoApp = React.createClass({
+    getInitialState: function() {
+      return {items: [], text: ''};
+    },
+    // 1.タスクを追加する
+    componentDidMount: function() {
+      $.ajax({
+        url: this.props.url,
+        dataType: 'json',
+        cache: false,
+        success: function(data) {
+          this.setState({items: data});
+        }.bind(this),
+        error: function(xhr, status, err) {
+          console.error(this.props.url, status, err.toString());
+        }.bind(this)
+      });
+    },
+    handleChange: function(e) {
+      this.setState({text: e.target.value});
+    },
+    // 2.タスクを登録する
+    handleSubmit: function(e) {
+      e.preventDefault();
+      var item = { text: this.state.text };
+      $.ajax({
+        url: this.props.url,
+        dataType: 'json',
+        type: 'POST',
+        data: item,
+        success: function(data) {
+          this.setState({items: data, text: ''});
+        }.bind(this),
+        error: function(xhr, status, err) {
+          console.error(this.props.url, status, err.toString());
+        }.bind(this)
+      });
+    },
+    render: function() {
+      return <div>
+        <TodoForm
+          onChange={this.handleChange}
+          onSubmit={this.handleSubmit}
+          text={this.state.text} />
+        <TodoList items={this.state.items} />
+      </div>
+    }
+  });
+  // 3.修正する3.修正する3.修正する
+  ReactDOM.render(<TodoApp url="http://localhost:3000/api/items" />, content);
+
+</script>

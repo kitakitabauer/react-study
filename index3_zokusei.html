@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<!-- 管理対象の要素 -->
+<div id="content"></div>
+
+<!-- コアライブラリ -->
+<script src="https://fb.me/react-15.2.0.js"></script>
+<!-- DOMライブラリ -->
+<script src="https://fb.me/react-dom-15.2.0.js"></script>
+
+<script type="text/javascript">
+// コンポーネント定義
+// 依存性のある値は「属性」を使って、外部から注入する形を取る
+var HelloClass = React.createClass({
+  render: function() {
+    return React.createElement(
+      "div", null, "Hello!", this.props.name
+    );
+  }
+});
+
+// エレメントの生成
+// 第2引数に渡すオブジェクトが属性のオブジェクト
+// これをコンポーネント内から「props」で参照できる
+var helloElement = React.createElement(
+  HelloClass, { name: "Taro" }
+);
+// 描画
+ReactDOM.render(helloElement, content);
+</script>
+

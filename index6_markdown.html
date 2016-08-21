@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.10.3/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.js"></script>
+
+<script>
+var Editor = React.createClass({
+  getInitialState: function() {
+    return {
+      value: "**Markdown** を記述できます"
+    };
+  },
+  // textareaの値が変更されたときに呼び出される
+  // setStateを呼び出すことで状態を変更する
+  handleChange: function(e) {
+    // ここのポイントはhandleChangeの引数として渡されるイベントのオブジェクト
+    // targetでイベントを発火した対象のエレメント自体を参照できる。
+    // ここではtargetがtextareaになるので、valueを参照することで入力された文字列を取得している
+    this.setState({value: e.target.value});
+  },
+  markup: function() {
+    return {__html: marked(this.state.value) };
+  },
+  // 入力にあたるtextareaと出力先にあたるdivが描画する
+  // 状態が変わるたびに呼ばれる。
+  // 出力先のdivではdangerouslySetInnerHTMLを使ってHTMLを埋め込んでいる。
+  // dangerouslySetInnerHTMLに__htmlを持つオブジェクトを渡すことで
+  // __htmlの値がHTMLテキストとして扱われ、実際に描画される。
+  // ここではmarkedライブラリで提供されている変換のための関数であるmarkedを呼び出している。
+  render: function() {
+    return <div>
+      <h3>Input</h3>
+      <textarea
+        onChange={this.handleChange}
+        defaultValue={this.state.value} />
+      <h3>Output</h3>
+      <div dangerouslySetInnerHTML={this.markup()} />
+    </div>;
+  }
+});
+ReactDOM.render(<Editor />, content);
+</script>

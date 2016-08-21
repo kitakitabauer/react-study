@@ -1,0 +1,22 @@
+{
+  "name": "react-study",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kitakitabauer/react-study"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kitakitabauer/react-study/issues"
+  },
+  "homepage": "https://github.com/kitakitabauer/react-study",
+  "dependencies": {
+    "react-sample": "git://github.com/suwa-yuki/simple-task-store"
+  }
+}

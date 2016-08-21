@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<!-- Babelを導入し、Webページ内でJSXを使用する -->
+<!-- BabelはECMAScriptの次期バージョンを現行のブラウザ上で実行可能な形式に変換する機能を持つ、JavaScriptコンパイラ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.10.3/babel.min.js"></script>
+
+<!-- text/javascript を text/babel に変更する -->
+<script type="text/babel">
+// コンポーネントの定義
+var HelloClass = React.createClass({
+  render: function() {
+    // JSXシンタックスコード内でJavaScriptコードを記述する場合は{}で囲う
+    return <div>Hello, {this.props.name}</div>;
+  }
+});
+
+// エレメント生成
+// JSXを使うと"React.createElement"メソッドを直接呼ばずに、
+// HTMLタグと同じような形式で記述できる。
+var helloElement = <HelloClass name="Taro" />;
+// 描画
+ReactDOM.render(helloElement, content);
+</script>

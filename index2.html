@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<!-- 管理対象の要素 -->
+<div id="content"></div>
+
+<!-- コアライブラリ -->
+<script src="https://fb.me/react-15.2.0.js"></script>
+<!-- DOMライブラリ -->
+<script src="https://fb.me/react-dom-15.2.0.js"></script>
+
+<script type="text/javascript">
+// コンポーネント定義
+// divと同様、コンポーネントの1つ。
+// React.createElementの第1引数にコンポーネントを渡す。
+var HelloClass = React.createClass({
+  render: function() {
+    return React.createElement(
+      "div", null, "Hello!"
+    );
+  }
+});
+
+// エレメントの生成
+// コンポーネントを新しく定義するには「React.createClass」を呼ぶ。
+// 引数には「render」を持つオブジェクトを渡す必要がある。
+// renderには戻り値としてエレメントを返す関数をセットする。
+// HelloClassを渡すことでHelloClassのエレメントを返している
+var helloElement = React.createElement(HelloClass);
+// 描画
+// このエレメントを描画すると、HelloClassのrenderの中で戻り値として返しているエレメントが描画される
+ReactDOM.render(helloElement, content);
+</script>
+

@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<!-- 管理対象の要素 -->
+<div id="content"></div>
+
+<!-- コアライブラリ -->
+<script src="https://fb.me/react-15.2.0.js"></script>
+<!-- DOMライブラリ -->
+<script src="https://fb.me/react-dom-15.2.0.js"></script>
+
+<script type="text/javascript">
+// エレメントの生成
+// Hello!という文字列が含まれるdivエレメントを生成し、
+// IDがcontentであるDOMノードの中に描画している
+var helloElement = React.createElement(
+  "div", null, "Hello!"
+);
+// 描画
+// ReactDOM.renderを呼び出すと、Reactに実際のDOMノードへの描画を指示できる。
+// 第1引数にはReactのエレメント、第2引数には描画先となる実際のDOMノードへのIDを指定する
+ReactDOM.render(helloElement, content);
+</script>
+

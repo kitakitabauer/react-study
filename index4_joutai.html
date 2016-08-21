@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<!-- 管理対象の要素 -->
+<div id="content"></div>
+
+<!-- コアライブラリ -->
+<script src="https://fb.me/react-15.2.0.js"></script>
+<!-- DOMライブラリ -->
+<script src="https://fb.me/react-dom-15.2.0.js"></script>
+
+<script type="text/javascript">
+var Ticker = React.createClass({
+  // 初期状態を定義
+  getInitialState: function() {
+    return {times: 0};
+  },
+  // コンポーネントのライフサイクルメソッド1
+  // コンポーネントがDOMツリーに追加されたときに呼ばれる
+  componentDidMount: function() {
+    // 1秒ごとに状態が変わる
+    // コンポーネントの状態を変更するためにtickを呼び出す
+    this.interval = setInterval(this.tick, 1000);
+  },
+  // コンポーネントのライフサイクルメソッド2
+  // コンポーネントがDOMツリーから削除されるときに呼ばれる
+  componentWillUnmount: function() {
+    // 1秒おきの呼び出しをキャンセル
+    clearInterval(this.interval);
+  },
+  // 状態が変更されたら呼ばれる
+  render: function() {
+    return React.createElement(
+      "div", null, "Times: ", this.state.times
+    );
+  },
+  tick: function() {
+    // 1秒ごとにsetStateによって変更され、その変更によってrenderが呼び出される
+    this.setState({times: this.state.times + 1});
+  }
+});
+
+var helloElement = React.createElement(Ticker);
+ReactDOM.render(helloElement, content);
+
+</script>
+
